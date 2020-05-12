@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Create Product Page</title>
+
+    <style>
+        h1{
+            margin: 10px 0px 30px 0px;
+        }
+        form{
+            width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 31px -10px rgba(0,0,0,0.75);
+        }
+        .link{
+            display: flex;
+            margin: 20px;
+            width: 200px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            text-decoration: none !important;
+        }
+    </style>
+
+
+  </head>
+  <body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1>Create Product Form</h1>
+        </div>
+        <div class="row justify-content-center">
+            <form id="ProductForm">
+                <div class="form-group">
+                  <label for="title">Product Name</label>
+                  <input type="text" class="form-control" id="title" >
+                </div>
+                <div class="form-group">
+                  <label for="description">Write short description</label>
+                  <textarea class="form-control" id="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image_url">Image Url</label>
+                    <input type="url" class="form-control" id="image_url" >
+                  </div>
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="new">
+                  <label class="form-check-label" for="new">New?</label>
+                </div>
+                <div class="row justify-content-between" style="padding: 0 20px;">
+                    <button type="submit" class="btn btn-primary" id="create_btn">Create Product</button>
+                    <button type="button" class="btn btn-danger" id="delete_products">Delete Products</button>
+                </div>
+            </form>
+            
+        </div>
+        <div class="row justify-content-center">
+            <a href="products.html" class="link btn-primary">Go to Product Page</a>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#ProductForm').submit(function(event){
+                event.preventDefault();
+                var product_name = $('#title').val();
+                var description = $('#description').val();
+                var image_url = $('#image_url').val();
+                var new_ = $('#new').is(':checked');
+                var product_obj = {
+                    'product_name' : product_name,
+                    'description' : description,
+                    'image_url' : image_url,
+                    'new' : new_
+                }
+                var product_str = JSON.stringify(product_obj);
+                localStorage.setItem(product_name,product_str);
+                this.reset()
+            });
+
+            $('#delete_products').click(function(){
+                localStorage.clear();
+            });
+        });
+    </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Wishlist</title>
+  </head>
+  <body>
+
+
+    <div class="container">
+      <div class="row justify-content-center">
+          <h1>My Wishlist</h1>
+          <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">New?</th>
+                  <th scope="col">Remove from wishlist</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                
+              </tbody>
+            </table>
+      </div>
+    </div>
+   
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <script>
+      
+        var wishlist_str = localStorage.getItem('wishlist');
+        function createWishlist(old_wishlist_str){
+            var old_wishlist_arr = old_wishlist_str.split(',');
+            $('tbody').html('')
+            for(var i=0; i<old_wishlist_arr.length; i++){
+              var wishlist_product_str = localStorage.getItem(old_wishlist_arr[i]);
+              var wishlist_product_obj = JSON.parse(wishlist_product_str);
+              
+              var wishlist_item_block = 
+              $(`<tr>
+                  <td class="title">${wishlist_product_obj.product_name}</td>
+                  <td >
+                    <img class="image" src="${wishlist_product_obj.image_url}" alt="" width="100">
+                  </td>
+                  <td class="description">${wishlist_product_obj.description}</td>
+                  <td class="new">${wishlist_product_obj.new}</td>
+                  <td scope="col"><button class="remove_item">Remove</button></td>
+                </tr>`)
+              
+              $('tbody').prepend(wishlist_item_block)
+          }
+        }
+        createWishlist(wishlist_str);
+
+        $('.remove_item').click(function(){
+          console.log('work')
+          var removable_item = $(this).parent().siblings('.title').text();
+          var new_wish_str = localStorage.getItem('wishlist');
+          var new_wish_arr = new_wish_str.split(',');
+          var index = new_wish_arr.indexOf(removable_item);
+          console.log(new_wish_str)
+          new_wish_arr.splice(index,1);
+          new_wish_str = new_wish_arr.toString();
+          localStorage.setItem('wishlist',new_wish_arr)
+          
+          createWishlist(new_wish_str);
+          console.log(new_wish_str)
+        });
+
+      
+
+    </script>
+
+
+
+  </body>
+</html>
